@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sun-Safe app – clickable mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #FBF3EA; --sand-2: #F3E4D3; --line: #EADBC9; --line-2: #E2CDB8;
+    --ink: #2B1D14; --ink-2: #5B4636; --ink-3: #6B5545;
+    --coral: #C24E2C; --teal: #1F6F6B; --teal-soft: #E4F1EE; --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: #E9DCCB; font-family: 'DM Sans', system-ui, sans-serif; color: var(--ink);
+         display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px 0; }
+  .note { font-size: 13px; color: var(--ink-2); text-align: center; max-width: 360px; margin: 0; }
+  .phone { width: 390px; height: 844px; background: var(--sand); border-radius: 40px; overflow: hidden; position: relative;
+           box-shadow: 0 20px 60px rgba(91,70,54,.25), 0 0 0 10px #2B1D14; display: flex; flex-direction: column; }
+  @media (max-width: 480px) {
+    body { padding: 0; background: var(--sand); justify-content: flex-start; }
+    .note { display: none; }
+    .phone { width: 100%; height: 100vh; height: 100dvh; border-radius: 0; box-shadow: none; }
+  }
+  .screen { display: none; flex: 1; flex-direction: column; min-height: 0; }
+  .screen.on { display: flex; }
+  .body { flex: 1; display: flex; flex-direction: column; gap: 16px; padding: 28px 22px 14px; overflow-y: auto; }
+  h1 { margin: 0; font-family: 'Fraunces', serif; font-weight: 600; font-size: 28px; line-height: 1.15; }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--teal); }
+  .muted { font-size: 14px; color: var(--ink-2); }
+  .small { font-size: 13px; color: var(--ink-3); line-height: 1.45; margin: 0; }
+  button { font-family: inherit; cursor: pointer; color: var(--ink); }
+  .btn { height: 54px; border-radius: 27px; border: none; background: var(--coral); color: #fff; font-weight: 600; font-size: 17px; width: 100%; }
+  .btn-ghost { height: 48px; border-radius: 24px; border: 1.5px solid var(--line-2); background: transparent; font-size: 15px; width: 100%; }
+  .card { background: var(--white); border-radius: 20px; padding: 16px; }
+  .opt { min-height: 56px; border-radius: 16px; border: 1.5px solid var(--line); background: #fff; padding: 0 18px;
+         display: flex; align-items: center; gap: 14px; font-size: 16px; text-align: left; width: 100%; }
+  .opt.sel { border: 2px solid var(--teal); background: var(--teal-soft); }
+  .swatch { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; border: 1.5px solid #D9C3AC; }
+  .chip { flex: 1; height: 44px; border-radius: 22px; border: 1.5px solid var(--line-2); background: #fff; font-size: 14px; font-weight: 600; }
+  .chip.sel { background: var(--teal); border-color: var(--teal); color: #fff; }
+  nav { height: 76px; border-top: 1px solid var(--line); background: #FFFDF9; display: flex; flex-shrink: 0; }
+  nav button { flex: 1; border: none; background: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 12px; color: var(--ink-3); }
+  nav button.on { color: var(--coral); font-weight: 600; }
+  input { height: 52px; border-radius: 14px; border: 1.5px solid var(--line-2); background: #fff; padding: 0 16px; font-size: 16px; font-family: inherit; color: var(--ink); width: 100%; }
+  input:focus, button:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+  .row { display: flex; gap: 8px; }
+  .bars { display: flex; align-items: flex-end; gap: 5px; height: 150px; }
+  .bars button { flex: 1; height: 150px; border: none; background: none; padding: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 4px; }
+  .bars .v { font-size: 11px; font-weight: 600; }
+  .bars .b { width: 100%; border-radius: 6px; }
+  .bars button.sel .b { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .hrs { display: flex; gap: 5px; } .hrs span { flex: 1; text-align: center; font-size: 11px; color: var(--ink-3); }
+  .step { display: flex; gap: 12px; align-items: center; min-height: 46px; }
+  .step .t { width: 54px; font-size: 13px; color: var(--ink-3); }
+  .step .d { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+  .step .x { flex: 1; display: flex; flex-direction: column; } .step b { font-size: 15px; } .step small { font-size: 13px; color: var(--ink-3); }
+  .cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+  .cal .w { text-align: center; font-size: 11px; color: var(--ink-3); }
+  .cal .day { aspect-ratio: 1; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; background: var(--sand); }
+</style>
+</head>
+<body>
+<p class="note"><strong>Sun-Safe app – clickable mockup.</strong> Tap through like a real app. Placeholder look and sample UV data; not the real app yet.</p>
+
+<main class="phone" aria-label="App mockup">
+
+  <!-- 1. Welcome -->
+  <section class="screen on" id="welcome">
+    <div class="body" style="padding: 56px 28px 36px; gap: 28px">
+      <div style="display:flex; flex-direction:column; align-items:center; gap:18px; padding-top:20px">
+        <svg width="132" height="132" viewBox="0 0 132 132" aria-hidden="true">
+          <circle cx="66" cy="66" r="64" fill="#F6DCC4"/><circle cx="66" cy="60" r="26" fill="#C24E2C"/>
+          <g stroke="#C24E2C" stroke-width="4" stroke-linecap="round"><line x1="66" y1="20" x2="66" y2="28"/><line x1="98" y1="32" x2="93" y2="37"/><line x1="34" y1="32" x2="39" y2="37"/><line x1="108" y1="60" x2="100" y2="60"/><line x1="24" y1="60" x2="32" y2="60"/></g>
+          <path d="M14 96 Q40 84 66 96 T118 96 L118 116 Q66 136 14 116 Z" fill="#1F6F6B"/>
+          <path d="M14 104 Q40 92 66 104 T118 104" stroke="#BFE3DD" stroke-width="3" fill="none"/>
+        </svg>
+        <div style="font-family:'Fraunces',serif; font-weight:600; font-size:38px; text-align:center">[App name]</div>
+        <p style="margin:0; font-size:17px; line-height:1.45; text-align:center; color:var(--ink-2); max-width:290px">Your personal sun coach. It learns how your skin reacts, so you can enjoy the beach without getting burned.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:auto">
+        <label for="email" style="font-size:14px; font-weight:600">Email or phone</label>
+        <input id="email" type="text" placeholder="you@email.com">
+        <button class="btn" data-go="quiz" style="margin-top:4px">Get started</button>
+        <p class="small" style="text-align:center">No password. We'll send you a one-tap sign-in link.</p>
+      </div>
+      <p class="muted" style="text-align:center; margin:0">Already have a profile? <button data-go="home" style="border:none; background:none; color:#9A3A1E; font-weight:600; font-size:14px; padding:0; text-decoration:underline">Log in</button></p>
+    </div>
+  </section>
+
+  <!-- 2. Quiz -->
+  <section class="screen" id="quiz">
+    <div class="body" style="gap:22px">
+      <div style="display:flex; align-items:center; gap:12px">
+        <button id="qBack" aria-label="Back" style="width:44px; height:44px; border-radius:22px; border:none; background:var(--sand-2); display:flex; align-items:center; justify-content:center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B1D14" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div style="flex:1; height:8px; border-radius:4px; background:var(--line); overflow:hidden"><div id="qBar" style="height:8px; background:var(--teal); width:0"></div></div>
+        <span id="qStep" class="muted" style="min-width:36px; text-align:right"></span>
+      </div>
+      <div id="qAsk" style="display:flex; flex-direction:column; gap:22px; flex:1">
+        <div style="display:flex; flex-direction:column; gap:10px">
+          <span class="eyebrow">Get to know your skin</span>
+          <h1 id="qTitle" style="font-size:30px"></h1>
+          <p id="qHelp" class="muted" style="margin:0; font-size:15px"></p>
+        </div>
+        <div id="qOpts" style="display:flex; flex-direction:column; gap:10px"></div>
+        <p class="small" style="margin-top:auto">We ask how your skin behaves, not about race. It predicts burning better.</p>
+      </div>
+      <div id="qDone" style="display:none; flex-direction:column; gap:16px; flex:1">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center; padding-top:24px">
+          <span class="eyebrow">Your skin type</span>
+          <div id="rCircle" style="width:150px; height:150px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:6px solid #fff; box-shadow:0 8px 24px rgba(91,70,54,.15)">
+            <span id="rNum" style="font-family:'Fraunces',serif; font-weight:600; font-size:64px"></span>
+          </div>
+          <h1 id="rName"></h1>
+          <p id="rText" class="muted" style="margin:0; font-size:16px; line-height:1.45; max-width:300px"></p>
+          <div id="rScale" style="display:flex; gap:4px"></div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:auto">
+          <button class="btn" data-go="home">See today's UV</button>
+          <button class="btn-ghost" id="qRestart">Retake quiz</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Home -->
+  <section class="screen" id="home">
+    <div class="body" style="gap:18px">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <div><div class="muted">Wednesday</div><div style="font-family:'Fraunces',serif; font-weight:600; font-size:26px">Hi there</div></div>
+        <span style="height:40px; border-radius:20px; border:1.5px solid var(--line-2); background:#fff; padding:0 14px; display:flex; align-items:center; gap:6px; font-size:14px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1F6F6B" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.5-7-12a7 7 0 0114 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>Tamarindo
+        </span>
+      </div>
+      <div id="uvCard" style="border-radius:24px; padding:20px; display:flex; flex-direction:column; gap:6px">
+        <span id="uvHour" style="font-size:13px; font-weight:600; letter-spacing:1px; text-transform:uppercase"></span>
+        <div style="display:flex; align-items:baseline; gap:10px">
+          <span id="uvNum" style="font-family:'Fraunces',serif; font-weight:600; font-size:72px; line-height:1"></span>
+          <span id="uvLvl" style="font-size:20px; font-weight:600"></span>
+        </div>
+        <p id="uvAdv" style="margin:0; font-size:15px; line-height:1.4"></p>
+      </div>
+      <div class="card" style="display:flex; flex-direction:column; gap:10px; padding:16px 14px 12px">
+        <div style="display:flex; justify-content:space-between; font-size:14px"><b>Today, hour by hour</b><span style="color:var(--ink-3)">Tap an hour</span></div>
+        <div class="bars" id="bars"></div>
+        <div class="hrs" id="hrs"></div>
+      </div>
+      <button data-go="plan" style="border-radius:20px; border:none; background:var(--teal); color:#fff; padding:16px 18px; display:flex; align-items:center; gap:14px; text-align:left">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <span style="flex:1; display:flex; flex-direction:column; gap:2px"><b style="font-size:16px">Plan my beach day</b><span style="font-size:13px; color:#CFE7E3">Best sun before 9:30 and after 3:30</span></span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <p class="small">Sample data. The real app pulls UV from Open-Meteo.</p>
+    </div>
+  </section>
+
+  <!-- 4. Plan -->
+  <section class="screen" id="plan">
+    <div class="body" style="gap:14px">
+      <div><div class="muted">Tamarindo · Skin type <span class="skinT">2</span></div><h1>Your sun schedule</h1></div>
+      <div style="display:flex; flex-direction:column; gap:8px">
+        <b style="font-size:13px">How much time do you have?</b>
+        <div class="row" id="times"></div>
+        <b style="font-size:13px; margin-top:4px">Your color goal</b>
+        <div class="row" id="goals"></div>
+      </div>
+      <div class="card" id="steps" style="padding:10px 16px"></div>
+      <div style="border-radius:16px; background:#F7E0D6; padding:12px 14px; display:flex; gap:10px; align-items:flex-start">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A3A1E" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="flex-shrink:0; margin-top:1px"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>
+        <span style="font-size:13px; line-height:1.4; color:#5A2412">UV reaches 8+ from 10:30 to 2:30. Stay in the shade then. This plan is a guide, not medical advice.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Log -->
+  <section class="screen" id="log">
+    <div class="body">
+      <div><div class="muted">After today's beach day</div><h1>How did your skin do?</h1></div>
+      <div id="feels" style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px"></div>
+      <div id="res" style="display:none; border-radius:18px; padding:14px 16px; flex-direction:column; gap:4px">
+        <b id="resT" style="font-size:15px"></b><span id="resX" style="font-size:14px; line-height:1.4"></span>
+      </div>
+      <div class="card" style="display:flex; flex-direction:column; gap:12px">
+        <div style="display:flex; justify-content:space-between; align-items:baseline"><b style="font-size:16px">Your sun days</b><span class="small">November</span></div>
+        <div class="cal" id="cal"></div>
+        <div id="legend" style="display:flex; gap:12px; flex-wrap:wrap; font-size:12px; color:var(--ink-2)"></div>
+      </div>
+    </div>
+  </section>
+
+  <nav id="nav" style="display:none">
+    <button data-go="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>Today</button>
+    <button data-go="plan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/></svg>Plan</button>
+    <button data-go="log"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h14v16H5z"/><path d="M9 9h6M9 13h6"/></svg>Log</button>
+  </nav>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const el = (tag, attrs = {}, html = '') => { const e = document.createElement(tag); Object.assign(e, attrs); if (html) e.innerHTML = html; return e; };
+
+// ---- navigation
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
+  const tabbed = ['home', 'plan', 'log'].includes(id);
+  $('nav').style.display = tabbed ? 'flex' : 'none';
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.go === id));
+}
+document.addEventListener('click', (e) => { const t = e.target.closest('[data-go]'); if (t) go(t.dataset.go); });
+
+// ---- quiz
+const tones = ['#F7E1D3', '#EFCDB0', '#DDB08C', '#C08A63', '#8E5F3F', '#5E3B26'];
+const Q = [
+  { t: 'What happens when you are in the sun for 30 minutes without sunscreen?', h: 'Think of the start of summer, before any tan.', o: [['I always burn', 0], ['I usually burn', 1], ['I sometimes burn', 2], ['I rarely burn', 3], ['I never burn', 4]] },
+  { t: 'Do you tan?', h: 'After a few days in the sun.', o: [['Never, I just burn', 0], ['A little', 1], ['A medium tan', 2], ['Easily and deeply', 3], ['My skin is already deep brown', 4]] },
+  { t: 'What is your natural hair color?', h: 'Before any dye.', o: [['Red', 0], ['Blonde', 1], ['Light brown', 2], ['Dark brown', 3], ['Black', 4]] },
+  { t: 'What color are your eyes?', h: 'Light eyes often go with skin that burns faster.', o: [['Light blue or grey', 0], ['Green or hazel', 1], ['Light brown', 2], ['Dark brown', 3], ['Very dark brown', 4]] },
+  { t: 'Do you have freckles?', h: 'On your face, shoulders or arms.', o: [['Lots', 0], ['Some', 1], ['A few', 2], ['None', 4]] }
+];
+const INFO = [
+  ['Always burns', 'Your skin burns fast. Your plans will be short and careful, with lots of shade.'],
+  ['Burns easily', 'You can get a light glow, slowly. Expect short sun blocks and frequent sunscreen.'],
+  ['Sometimes burns', 'You tan gradually. Plans build color a little at a time.'],
+  ['Rarely burns', 'You tan well, but high UV can still burn you.'],
+  ['Very rarely burns', 'Your skin handles sun well. Sunscreen still protects it long-term.'],
+  ['Never burns', 'Burns are rare for you, but UV still damages skin. Plans keep sunscreen in.']
+];
+let step = 0, answers = [], skinType = 2;
+function renderQuiz() {
+  const done = step >= Q.length;
+  $('qBar').style.width = Math.round(Math.min(step, Q.length) / Q.length * 100) + '%';
+  $('qStep').textContent = done ? 'Done' : (step + 1) + '/' + Q.length;
+  $('qAsk').style.display = done ? 'none' : 'flex';
+  $('qDone').style.display = done ? 'flex' : 'none';
+  if (!done) {
+    const q = Q[step];
+    $('qTitle').textContent = q.t; $('qHelp').textContent = q.h;
+    $('qOpts').innerHTML = '';
+    q.o.forEach(([label, score]) => {
+      const b = el('button', { className: 'opt' + (answers[step] === score ? ' sel' : ''), type: 'button' },
+        `<span class="swatch" style="background:${tones[Math.min(5, Math.round(score * 1.25))]}"></span><span>${label}</span>`);
+      b.onclick = () => { answers[step] = score; step++; renderQuiz(); };
+      $('qOpts').appendChild(b);
+    });
+  } else {
+    const total = answers.reduce((s, v) => s + (v || 0), 0);
+    skinType = Math.max(1, Math.min(6, 1 + Math.round(total / 20 * 5)));
+    $('rNum').textContent = skinType; $('rCircle').style.background = tones[skinType - 1];
+    $('rName').textContent = INFO[skinType - 1][0]; $('rText').textContent = INFO[skinType - 1][1];
+    $('rScale').innerHTML = tones.map((t, i) => `<div style="width:44px;height:10px;border-radius:5px;background:${t};${i === skinType - 1 ? 'outline:2px solid #1F6F6B;outline-offset:2px' : ''}"></div>`).join('');
+    document.querySelectorAll('.skinT').forEach(s => s.textContent = skinType);
+  }
+}
+$('qBack').onclick = () => { if (step === 0) go('welcome'); else { step--; renderQuiz(); } };
+$('qRestart').onclick = () => { step = 0; answers = []; renderQuiz(); };
+renderQuiz();
+
+// ---- home UV
+const UV = [[7,1],[8,2],[9,4],[10,6],[11,9],[12,11],[13,10],[14,8],[15,5],[16,3],[17,1]];
+const lvl = (u) => u >= 11 ? ['Extreme', '#7A3E9D', '#fff'] : u >= 8 ? ['Very high', '#C24E2C', '#fff'] : u >= 6 ? ['High', '#E8915A', '#2B1D14'] : u >= 3 ? ['Moderate', '#E9C46A', '#2B1D14'] : ['Low', '#8DBFA8', '#2B1D14'];
+const fmt = (h) => (h > 12 ? h - 12 : h) + (h >= 12 ? ' PM' : ' AM');
+let sel = 4;
+function renderUV() {
+  const [h, u] = UV[sel], L = lvl(u);
+  $('uvCard').style.background = L[1]; $('uvCard').style.color = L[2];
+  $('uvHour').textContent = 'UV at ' + fmt(h); $('uvNum').textContent = u; $('uvLvl').textContent = L[0];
+  $('uvAdv').textContent = u >= 8 ? 'Too strong for your skin. Stay in the shade or go another time.' : u >= 6 ? 'Short sun only, with sunscreen and a hat.' : u >= 3 ? 'Good for a short sun block with sunscreen.' : 'Gentle sun. A good time for you.';
+  $('bars').innerHTML = ''; $('hrs').innerHTML = '';
+  UV.forEach(([hh, uu], i) => {
+    const b = el('button', { type: 'button', className: i === sel ? 'sel' : '' }, `<span class="v">${uu}</span><span class="b" style="height:${Math.max(10, Math.round(uu / 11 * 120))}px;background:${lvl(uu)[1]}"></span>`);
+    b.setAttribute('aria-label', 'UV ' + uu + ' at ' + fmt(hh));
+    b.onclick = () => { sel = i; renderUV(); };
+    $('bars').appendChild(b);
+    $('hrs').appendChild(el('span', {}, String(hh > 12 ? hh - 12 : hh)));
+  });
+}
+renderUV();
+
+// ---- plan
+let time = 1, goal = 1;
+const S = { sun: ['#F6C68C', '#2B1D14', 'SUN'], shade: ['#CFE7E3', '#14504D', 'SH'], pool: ['#BFDCEF', '#163E5C', 'POOL'], spf: ['#F7E0D6', '#9A3A1E', 'SPF'] };
+function chips(box, labels, cur, set) {
+  $(box).innerHTML = '';
+  labels.forEach((l, i) => { const b = el('button', { type: 'button', className: 'chip' + (i === cur ? ' sel' : '') }, l); b.onclick = () => { set(i); renderPlan(); }; $(box).appendChild(b); });
+}
+function renderPlan() {
+  chips('times', ['1 hour', '2 hours', 'All day'], time, (i) => time = i);
+  chips('goals', ['Just protect', 'Light glow', 'Some color'], goal, (i) => goal = i);
+  const sun = [8, 12, 15][goal];
+  const all = [
+    ['7:45', 'spf', 'Sunscreen on', 'SPF 30+, 15 min before sun'],
+    ['8:00', 'sun', 'Sun · ' + sun + ' min', 'UV 2, gentle'],
+    ['8:' + (sun < 10 ? '0' : '') + sun, 'shade', 'Shade · 20 min', 'Under a tree or umbrella'],
+    ['8:40', 'pool', 'Pool or sea · 20 min', 'Water still reflects UV'],
+    ['9:00', 'spf', 'Reapply sunscreen', 'After swimming'],
+    ['9:10', 'sun', 'Sun · ' + Math.max(5, sun - 5) + ' min', 'UV 4, keep it short'],
+    ['9:30', 'shade', 'Shade until 3:30', 'UV is too high for you'],
+    ['3:30', 'sun', 'Sun · ' + sun + ' min', 'UV 5, then pack up']
+  ];
+  $('steps').innerHTML = all.slice(0, [5, 7, 8][time]).map(([t, k, ti, sub]) =>
+    `<div class="step"><span class="t">${t}</span><span class="d" style="background:${S[k][0]};color:${S[k][1]}">${S[k][2]}</span><span class="x"><b>${ti}</b><small>${sub}</small></span></div>`).join('');
+}
+renderPlan();
+
+// ---- log
+const F = [
+  ['Fine', '#F3DCC6', '#DCEFE9', '#14504D', 'Nice. Your next plan adds a few minutes.', 'After a few fine days in a row, your sun blocks grow a little.'],
+  ['A little pink', '#F2B9A0', '#FBEBD5', '#6B3E0E', 'Plan stays the same.', 'Use after-sun and keep your next day shorter if it still feels warm.'],
+  ['Red', '#E07A5F', '#F7E0D6', '#5A2412', 'Next plan is shorter.', 'Your sun blocks drop by about a third. Cool showers and aloe help.'],
+  ['Painful', '#B23A2A', '#F2D3CB', '#5A2412', 'Skip the sun until it heals.', 'See a doctor if you get blisters, a fever, or pain that won’t stop.']
+];
+let pick = null;
+function renderLog() {
+  $('feels').innerHTML = '';
+  F.forEach((f, i) => {
+    const b = el('button', { type: 'button', className: 'opt' + (pick === i ? ' sel' : '') }, `<span class="swatch" style="width:30px;height:30px;background:${f[1]}"></span><b style="font-size:15px">${f[0]}</b>`);
+    b.style.height = '76px'; b.style.background = '#fff';
+    b.onclick = () => { pick = i; renderLog(); };
+    $('feels').appendChild(b);
+  });
+  if (pick !== null) {
+    const f = F[pick];
+    Object.assign($('res').style, { display: 'flex', background: f[2], color: f[3] });
+    $('resT').textContent = f[4]; $('resX').textContent = f[5];
+  }
+}
+renderLog();
+const C = { fine: '#9FD0C2', pink: '#F2B9A0', red: '#E07A5F' };
+const LOG = { 2: 'fine', 3: 'fine', 8: 'pink', 9: 'fine', 15: 'red', 21: 'fine', 22: 'fine', 23: 'fine' };
+$('cal').innerHTML = ['M','T','W','T','F','S','S'].map(d => `<span class="w">${d}</span>`).join('') +
+  Array.from({ length: 28 }, (_, i) => { const n = i + 1, k = LOG[n];
+    return `<span class="day" style="${k ? 'background:' + C[k] + ';' : ''}${k === 'red' ? 'color:#fff;' : ''}${n === 25 ? 'outline:2px solid #1F6F6B;' : ''}">${n}</span>`; }).join('');
+$('legend').innerHTML = [['Fine', C.fine], ['Pink', C.pink], ['Red', C.red], ['No beach', '#FBF3EA']]
+  .map(([l, c]) => `<span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;border-radius:4px;background:${c};border:1px solid #E2CDB8"></span>${l}</span>`).join('');
+</script>
+</body>
+</html>
